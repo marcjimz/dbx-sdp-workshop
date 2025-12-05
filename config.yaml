@@ -9,8 +9,9 @@ user_list: "marcin.jimenez@databricks.com"
 # Delta Share Configuration (Databricks-to-Databricks)
 # PREREQUISITE: Delta Share must be created and shared BEFORE running the workshop
 # Delta Share Provider Information
-# Provider identifier format: cloud:region:provider:identifier
-delta_share_provider: "azure:eastus2:databricks:field-eng-east"
+# Provider name: The metastore/account name (e.g., "field-eng-east" or "databricks")
+# This is the provider name shown when you create the share recipient
+delta_share_provider: "field-eng-east"
 delta_share_name: "scp-demo"
 
 # Catalog Configuration

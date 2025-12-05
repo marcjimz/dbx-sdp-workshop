@@ -34,9 +34,10 @@ Main configuration file with settings:
 - File glob pattern for copying files
 
 **Delta Share Setup:**
-- Provider identifier format: `cloud:region:provider:identifier`
-- Example: `azure:eastus2:databricks:field-eng-east`
-- Share name matches your Delta Share in Databricks
+- Provider name: The metastore/account name (e.g., `field-eng-east` or `databricks`)
+  - This is the provider name shown when you create the share recipient in Databricks
+  - Format for SQL: `provider.share` (e.g., `field-eng-east.scp-demo`)
+- Share name: The name of your Delta Share in Databricks (e.g., `scp-demo`)
 
 ## Directory Structure
 
