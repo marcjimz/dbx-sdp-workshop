@@ -28,8 +28,8 @@ volume_name: "user_data_volume"
 # Local catalog name to mount Delta Share (will be created)
 delta_share_catalog: "dbx_scp_shared_catalog"
 # Schema and volume names within the shared data
-delta_share_schema: "shared_schema"
-delta_share_volume: "shared_volume"
+delta_share_schema: "hedis_measurements"
+delta_share_volume: "hedis"
 
 # File pattern to copy from Delta Share volume
 file_glob_pattern: "*"
