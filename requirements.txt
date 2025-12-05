@@ -1,0 +1,8 @@
+# Workshop Setup Dependencies
+# Install with: pip install -r requirements.txt
+
+# YAML parsing for config.yaml
+pyyaml>=6.0
+
+# Databricks SDK for Delta Share and Unity Catalog operations
+databricks-sdk>=0.20.0
