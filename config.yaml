@@ -23,7 +23,7 @@ volume_name: "user_data_volume"
 source_data_path: "/databricks-datasets/sample_data"
 
 # Execution Configuration
-dry_run: "No"  # Set to "Yes" for preview mode without execution
+# No configuration needed - all operations execute immediately
 
 # Advanced Configuration
 # Email domain for generated user emails (if not using actual user lookup)

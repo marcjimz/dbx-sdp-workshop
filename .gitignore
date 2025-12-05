@@ -1,6 +1,6 @@
 # Delta Share credentials - DO NOT COMMIT
 config.share
-
+.claude*
 # Python
 __pycache__/
 *.py[cod]
