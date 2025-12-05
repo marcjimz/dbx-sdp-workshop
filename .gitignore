@@ -1,5 +1,9 @@
 # Delta Share credentials - DO NOT COMMIT
 config.share
+
+# Provisioning reports - DO NOT COMMIT
+provisioning_report.json
+
 .claude*
 # Python
 __pycache__/
