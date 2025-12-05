@@ -3,6 +3,7 @@
 # All notebooks load from this file on startup.
 
 # User Configuration
+# Comma-separated list of email addresses (format: first.last@domain.com)
 user_list: "marcin.jimenez@databricks.com"
 
 # Delta Share Configuration
@@ -21,19 +22,6 @@ volume_name: "user_data_volume"
 
 # Data Source Configuration
 source_data_path: "/databricks-datasets/sample_data"
-
-# Execution Configuration
-# No configuration needed - all operations execute immediately
-
-# Advanced Configuration
-# Email domain for generated user emails (if not using actual user lookup)
-email_domain: "example.com"
-
-# Permission level to grant (default: ALL PRIVILEGES for CAN MANAGE)
-permission_level: "ALL PRIVILEGES"
-
-# Auto-create schemas if they don't exist
-auto_create_schemas: "Yes"
 
 # Report Configuration
 save_report_to_delta: "Yes"
