@@ -20,7 +20,16 @@ schema_name: "default"
 # Volume Configuration
 volume_name: "user_data_volume"
 
-# Data Source Configuration
+# Delta Share Data Configuration
+# Delta Share details for accessing shared data
+delta_share_catalog: "shared_catalog"
+delta_share_schema: "shared_schema"
+delta_share_volume: "shared_volume"
+
+# File pattern to copy from Delta Share volume
+file_glob_pattern: "*.parquet"
+
+# Alternative: Local data source (if not using Delta Share)
 source_data_path: "/databricks-datasets/sample_data"
 
 # Report Configuration
