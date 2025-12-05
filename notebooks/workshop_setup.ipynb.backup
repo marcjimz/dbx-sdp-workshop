@@ -220,7 +220,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": null,
+   "execution_count": 0,
    "metadata": {
     "application/vnd.databricks.v1+cell": {
      "cellMetadata": {
@@ -235,11 +235,101 @@
     }
    },
    "outputs": [],
-   "source": "import re\n\ndef generate_user_alias(email):\n    \"\"\"\n    Generate user alias from email address.\n    Pattern: first 3 letters of first name + _ + first 4 letters of last name\n    \n    Args:\n        email: Email address (e.g., \"marcin.jimenez@databricks.com\")\n    \n    Returns:\n        User alias (e.g., \"mar_jime\")\n    \"\"\"\n    # Extract username part from email (before @)\n    if '@' not in email:\n        raise ValueError(f\"Invalid email format: {email}. Expected 'first.last@domain.com'\")\n    \n    username = email.split('@')[0]\n    \n    # Split by dot or underscore to get first and last name\n    name_parts = re.split(r'[._]', username)\n    \n    if len(name_parts) < 2:\n        raise ValueError(f\"Invalid email format: {email}. Expected 'first.last@domain.com' or 'first_last@domain.com'\")\n    \n    first_name = name_parts[0].lower()\n    last_name = name_parts[-1].lower()  # Use last part in case of middle names\n    \n    # Generate alias: first 3 chars of first name + first 4 chars of last name\n    first_part = first_name[:3]\n    last_part = last_name[:4]\n    \n    alias = f\"{first_part}_{last_part}\"\n    \n    # Remove any non-alphanumeric characters except underscore\n    alias = re.sub(r'[^a-z0-9_]', '', alias)\n    \n    return alias\n\ndef extract_full_name(email):\n    \"\"\"\n    Extract full name from email address.\n    \n    Args:\n        email: Email address (e.g., \"marcin.jimenez@databricks.com\")\n    \n    Returns:\n        Full name with proper capitalization (e.g., \"Marcin Jimenez\")\n    \"\"\"\n    username = email.split('@')[0]\n    name_parts = re.split(r'[._]', username)\n    \n    # Capitalize each part\n    full_name = ' '.join(part.capitalize() for part in name_parts)\n    \n    return full_name\n\n# Parse user list (expecting comma-separated email addresses)\nusers = [user.strip() for user in user_list_raw.split(',') if user.strip()]\n\n# Validate and generate user data structure\nuser_data = []\nerrors = []\n\nfor email in users:\n    try:\n        alias = generate_user_alias(email)\n        full_name = extract_full_name(email)\n        \n        user_data.append({\n            \"full_name\": full_name,\n            \"alias\": alias,\n            \"catalog_name\": f\"{base_catalog_name}_{alias}\",\n            \"email\": email\n        })\n    except ValueError as e:\n        errors.append(str(e))\n\n# If there are any errors, raise an exception\nif errors:\n    error_message = \"❌ User parsing failed:\\n\" + \"\\n\".join(f\"   - {err}\" for err in errors)\n    raise ValueError(error_message)\n\n# Display parsed users\nprint(f\"\\n📋 Parsed {len(user_data)} users:\")\nprint(\"=\" * 80)\nfor idx, user in enumerate(user_data, 1):\n    print(f\"{idx}. {user['email']:40s} → {user['full_name']:20s} → Alias: {user['alias']:12s} → Catalog: {user['catalog_name']}\")\nprint(\"=\" * 80)"
+   "source": [
+    "import re\n",
+    "\n",
+    "def generate_user_alias(email):\n",
+    "    \"\"\"\n",
+    "    Generate user alias from email address.\n",
+    "    Pattern: first 3 letters of first name + _ + first 4 letters of last name\n",
+    "    \n",
+    "    Args:\n",
+    "        email: Email address (e.g., \"marcin.jimenez@databricks.com\")\n",
+    "    \n",
+    "    Returns:\n",
+    "        User alias (e.g., \"mar_jime\")\n",
+    "    \"\"\"\n",
+    "    # Extract username part from email (before @)\n",
+    "    if '@' not in email:\n",
+    "        raise ValueError(f\"Invalid email format: {email}. Expected 'first.last@domain.com'\")\n",
+    "    \n",
+    "    username = email.split('@')[0]\n",
+    "    \n",
+    "    # Split by dot or underscore to get first and last name\n",
+    "    name_parts = re.split(r'[._]', username)\n",
+    "    \n",
+    "    if len(name_parts) < 2:\n",
+    "        raise ValueError(f\"Invalid email format: {email}. Expected 'first.last@domain.com' or 'first_last@domain.com'\")\n",
+    "    \n",
+    "    first_name = name_parts[0].lower()\n",
+    "    last_name = name_parts[-1].lower()  # Use last part in case of middle names\n",
+    "    \n",
+    "    # Generate alias: first 3 chars of first name + first 4 chars of last name\n",
+    "    first_part = first_name[:3]\n",
+    "    last_part = last_name[:4]\n",
+    "    \n",
+    "    alias = f\"{first_part}{last_part}\"\n",
+    "    \n",
+    "    # Remove any non-alphanumeric characters except underscore\n",
+    "    alias = re.sub(r'[^a-z0-9_]', '', alias)\n",
+    "    \n",
+    "    return alias\n",
+    "\n",
+    "def extract_full_name(email):\n",
+    "    \"\"\"\n",
+    "    Extract full name from email address.\n",
+    "    \n",
+    "    Args:\n",
+    "        email: Email address (e.g., \"marcin.jimenez@databricks.com\")\n",
+    "    \n",
+    "    Returns:\n",
+    "        Full name with proper capitalization (e.g., \"Marcin Jimenez\")\n",
+    "    \"\"\"\n",
+    "    username = email.split('@')[0]\n",
+    "    name_parts = re.split(r'[._]', username)\n",
+    "    \n",
+    "    # Capitalize each part\n",
+    "    full_name = ' '.join(part.capitalize() for part in name_parts)\n",
+    "    \n",
+    "    return full_name\n",
+    "\n",
+    "# Parse user list (expecting comma-separated email addresses)\n",
+    "users = [user.strip() for user in user_list_raw.split(',') if user.strip()]\n",
+    "\n",
+    "# Validate and generate user data structure\n",
+    "user_data = []\n",
+    "errors = []\n",
+    "\n",
+    "for email in users:\n",
+    "    try:\n",
+    "        alias = generate_user_alias(email)\n",
+    "        full_name = extract_full_name(email)\n",
+    "        \n",
+    "        user_data.append({\n",
+    "            \"full_name\": full_name,\n",
+    "            \"alias\": alias,\n",
+    "            \"catalog_name\": f\"{base_catalog_name}_{alias}\",\n",
+    "            \"email\": email\n",
+    "        })\n",
+    "    except ValueError as e:\n",
+    "        errors.append(str(e))\n",
+    "\n",
+    "# If there are any errors, raise an exception\n",
+    "if errors:\n",
+    "    error_message = \"❌ User parsing failed:\\n\" + \"\\n\".join(f\"   - {err}\" for err in errors)\n",
+    "    raise ValueError(error_message)\n",
+    "\n",
+    "# Display parsed users\n",
+    "print(f\"\\n📋 Parsed {len(user_data)} users:\")\n",
+    "print(\"=\" * 80)\n",
+    "for idx, user in enumerate(user_data, 1):\n",
+    "    print(f\"{idx}. {user['email']:40s} → {user['full_name']:20s} → Alias: {user['alias']:12s} → Catalog: {user['catalog_name']}\")\n",
+    "print(\"=\" * 80)"
+   ]
   },
   {
    "cell_type": "code",
-   "execution_count": null,
+   "execution_count": 0,
    "metadata": {
     "application/vnd.databricks.v1+cell": {
      "cellMetadata": {},
@@ -251,7 +341,49 @@
     }
    },
    "outputs": [],
-   "source": "def mount_delta_share_catalog(catalog_name, provider, share_name):\n    \"\"\"\n    Mount a Delta Share to a local catalog.\n    \n    Args:\n        catalog_name: Local catalog name to create\n        provider: Delta Share provider name (e.g., \"field-eng-east\" or \"databricks\")\n        share_name: Name of the share (e.g., \"scp-demo\")\n    \n    Returns:\n        Mount status dict\n    \"\"\"\n    try:\n        # Check if catalog already exists\n        try:\n            spark.sql(f\"DESCRIBE CATALOG `{catalog_name}`\")\n            print(f\"✅ Delta Share catalog '{catalog_name}' already mounted\")\n            return {\"status\": \"already_exists\", \"mounted\": True, \"catalog\": catalog_name}\n        except Exception:\n            pass\n        \n        # Create catalog from Delta Share\n        share_path = f\"{provider}.{share_name}\"\n        spark.sql(f\"\"\"\n            CREATE CATALOG IF NOT EXISTS `{catalog_name}`\n            USING SHARE `{share_path}`\n        \"\"\")\n        \n        print(f\"✅ Mounted Delta Share '{share_path}' to catalog '{catalog_name}'\")\n        return {\"status\": \"success\", \"mounted\": True, \"catalog\": catalog_name}\n        \n    except Exception as e:\n        print(f\"❌ Error mounting Delta Share: {str(e)}\")\n        print(f\"   Verify share exists: {provider}.{share_name}\")\n        return {\"status\": \"error\", \"mounted\": False, \"error\": str(e)}\n\n# Mount Delta Share\nprint(\"\\n📦 Mounting Delta Share to Catalog:\")\nprint(\"=\" * 80)\nmount_status = mount_delta_share_catalog(delta_share_catalog, delta_share_provider, delta_share_name)\nprint(\"=\" * 80)"
+   "source": [
+    "def mount_delta_share_catalog(catalog_name, provider, share_name):\n",
+    "    \"\"\"\n",
+    "    Mount a Delta Share to a local catalog.\n",
+    "    \n",
+    "    Args:\n",
+    "        catalog_name: Local catalog name to create\n",
+    "        provider: Delta Share provider identifier (e.g., \"azure:eastus2:databricks:field-eng-east\")\n",
+    "        share_name: Name of the share (e.g., \"scp-demo\")\n",
+    "    \n",
+    "    Returns:\n",
+    "        Mount status dict\n",
+    "    \"\"\"\n",
+    "    try:\n",
+    "        # Check if catalog already exists\n",
+    "        try:\n",
+    "            spark.sql(f\"DESCRIBE CATALOG `{catalog_name}`\")\n",
+    "            print(f\"✅ Delta Share catalog '{catalog_name}' already mounted\")\n",
+    "            return {\"status\": \"already_exists\", \"mounted\": True, \"catalog\": catalog_name}\n",
+    "        except Exception:\n",
+    "            pass\n",
+    "        \n",
+    "        # Create catalog from Delta Share\n",
+    "        share_path = f\"{provider}.{share_name}\"\n",
+    "        spark.sql(f\"\"\"\n",
+    "            CREATE CATALOG IF NOT EXISTS `{catalog_name}`\n",
+    "            USING SHARE `{share_path}`\n",
+    "        \"\"\")\n",
+    "        \n",
+    "        print(f\"✅ Mounted Delta Share '{share_path}' to catalog '{catalog_name}'\")\n",
+    "        return {\"status\": \"success\", \"mounted\": True, \"catalog\": catalog_name}\n",
+    "        \n",
+    "    except Exception as e:\n",
+    "        print(f\"❌ Error mounting Delta Share: {str(e)}\")\n",
+    "        print(f\"   Verify share exists: {provider}.{share_name}\")\n",
+    "        return {\"status\": \"error\", \"mounted\": False, \"error\": str(e)}\n",
+    "\n",
+    "# Mount Delta Share\n",
+    "print(\"\\n📦 Mounting Delta Share to Catalog:\")\n",
+    "print(\"=\" * 80)\n",
+    "mount_status = mount_delta_share_catalog(delta_share_catalog, delta_share_provider, delta_share_name)\n",
+    "print(\"=\" * 80)"
+   ]
   },
   {
    "cell_type": "markdown",
@@ -409,16 +541,38 @@
    ]
   },
   {
-   "cell_type": "code",
-   "source": "def create_schema_and_volume(catalog_name, schema_name, volume_name):\n    \"\"\"Create schema and volume in a catalog.\"\"\"\n    try:\n        volume_path = f\"{catalog_name}.{schema_name}.{volume_name}\"\n        \n        spark.sql(f\"CREATE SCHEMA IF NOT EXISTS `{catalog_name}`.`{schema_name}` COMMENT 'Schema for user data and volumes'\")\n        spark.sql(f\"CREATE VOLUME IF NOT EXISTS `{catalog_name}`.`{schema_name}`.`{volume_name}` COMMENT 'User data volume'\")\n        \n        return {\"catalog\": catalog_name, \"volume_path\": volume_path, \"created\": True, \"status\": \"success\"}\n        \n    except Exception as e:\n        print(f\"❌ Error creating volume in {catalog_name}: {str(e)}\")\n        return {\"catalog\": catalog_name, \"volume_path\": volume_path, \"created\": False, \"status\": \"error\", \"error\": str(e)}\n\n# Create volumes for all users\nprint(\"\\n💾 Creating User Volumes:\")\nprint(\"=\" * 80)\n\nvolume_results = []\nfor user in user_data:\n    result = create_schema_and_volume(user['catalog_name'], schema_name, volume_name)\n    volume_results.append(result)\n    user['volume_name'] = result['volume_path']\n    user['volume_created'] = result['created']\n\nprint(\"=\" * 80)\nsuccess_count = sum(1 for r in volume_results if r.get('created', False))\nprint(f\"📊 Created {success_count}/{len(volume_results)} volumes\")",
-   "metadata": {},
-   "execution_count": null,
-   "outputs": []
+   "cell_type": "markdown",
+   "metadata": {
+    "application/vnd.databricks.v1+cell": {
+     "cellMetadata": {},
+     "inputWidgets": {},
+     "nuid": "20a5bf39-e00c-4405-bb79-27a4d8419796",
+     "showTitle": false,
+     "tableResultSettingsMap": {},
+     "title": ""
+    }
+   },
+   "source": [
+    "## 9. Load Data to Volumes from Delta Share\n",
+    "\n",
+    "Copy data from Delta Share volume to each user's volume using the glob pattern."
+   ]
   },
   {
-   "cell_type": "markdown",
-   "source": "## 9. Load Data to Volumes from Delta Share\n\nCopy data from Delta Share volume to each user's volume using the glob pattern.",
-   "metadata": {}
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "application/vnd.databricks.v1+cell": {
+     "cellMetadata": {},
+     "inputWidgets": {},
+     "nuid": "1bf53c3f-bb11-4584-93ad-043e2c695722",
+     "showTitle": false,
+     "tableResultSettingsMap": {},
+     "title": ""
+    }
+   },
+   "outputs": [],
+   "source": "import fnmatch\n\ndef load_data_to_volume(volume_path, delta_share_catalog, delta_share_schema, delta_share_volume, file_pattern):\n    \"\"\"Copy data from Delta Share volume to user volume using glob pattern.\"\"\"\n    try:\n        volume_fs_path = f\"/Volumes/{volume_path.replace('.', '/')}\"\n        data_location = f\"{volume_fs_path}/data\"\n        dbutils.fs.mkdirs(data_location)\n        \n        # Access Delta Share volume\n        delta_share_volume_path = f\"/Volumes/{delta_share_catalog}/{delta_share_schema}/{delta_share_volume}\"\n        \n        # List and filter files\n        try:\n            all_files = dbutils.fs.ls(delta_share_volume_path)\n            matching_files = [f.path for f in all_files if fnmatch.fnmatch(f.name, file_pattern)]\n            \n            if not matching_files:\n                return {\"volume\": volume_path, \"data_location\": data_location, \"loaded\": False, \"status\": \"no_files_found\", \"files_copied\": 0}\n            \n            # Copy files\n            files_copied = 0\n            for file_path in matching_files:\n                file_name = file_path.split('/')[-1]\n                dest_path = f\"{data_location}/{file_name}\"\n                try:\n                    dbutils.fs.cp(file_path, dest_path)\n                    files_copied += 1\n                except Exception:\n                    pass\n            \n            return {\n                \"volume\": volume_path,\n                \"data_location\": data_location,\n                \"loaded\": True,\n                \"status\": \"success\",\n                \"files_copied\": files_copied,\n                \"source\": \"delta_share\"\n            }\n            \n        except Exception as e:\n            return {\"volume\": volume_path, \"data_location\": data_location, \"loaded\": False, \"status\": \"error_listing\", \"error\": str(e)}\n        \n    except Exception as e:\n        print(f\"❌ Error loading data to {volume_path}: {str(e)}\")\n        return {\"volume\": volume_path, \"data_location\": None, \"loaded\": False, \"status\": \"error\", \"error\": str(e)}\n\n# Load data to all volumes\nprint(\"\\n📥 Loading Data to Volumes:\")\nprint(\"=\" * 80)\n\ndata_load_results = []\nfor user in user_data:\n    if user.get('volume_created', False):\n        result = load_data_to_volume(\n            user['volume_name'],\n            delta_share_catalog,\n            delta_share_schema,\n            delta_share_volume,\n            file_glob_pattern\n        )\n        data_load_results.append(result)\n        user['data_location'] = result['data_location']\n        user['data_loaded'] = result['loaded']\n        user['files_copied'] = result.get('files_copied', 0)\n    else:\n        user['data_location'] = None\n        user['data_loaded'] = False\n        user['files_copied'] = 0\n\nprint(\"=\" * 80)\nsuccess_count = sum(1 for r in data_load_results if r.get('loaded', False))\ntotal_files = sum(r.get('files_copied', 0) for r in data_load_results)\n\nprint(f\"📊 Loaded data to {success_count}/{len(data_load_results)} volumes\")\nprint(f\"   Total files copied: {total_files}\")"
   },
   {
    "cell_type": "code",
@@ -798,6 +952,27 @@
     "        print(\"   🗑️  Removed confirmation widget\")\n",
     "    else:\n",
     "        print(\"\\n⚠️  Some catalogs could not be deleted. Review errors above.\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "application/vnd.databricks.v1+cell": {
+     "cellMetadata": {},
+     "inputWidgets": {},
+     "nuid": "206f5d58-1b3f-46a7-9a40-260b2d221d22",
+     "showTitle": false,
+     "tableResultSettingsMap": {},
+     "title": ""
+    }
+   },
+   "source": [
+    "---\n",
+    "\n",
+    "## Cleanup Section - Delete Provisioned Resources\n",
+    "\n",
+    "⚠️ **WARNING**: The following cells will DELETE all catalogs created by this workshop setup.\n",
+    "Only run these cells if you want to completely remove all provisioned resources."
    ]
   }
  ],
