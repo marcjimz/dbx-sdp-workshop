@@ -1,0 +1,40 @@
+# User Provisioning Configuration
+# This configuration file centralizes all widget values for the notebooks.
+# All notebooks load from this file on startup.
+
+# User Configuration
+user_list: "John Smith, Jane Doe, Alice Johnson"
+
+# Delta Share Configuration
+delta_share_file: "/Volumes/main/default/share_config/share.json"
+
+# Catalog Configuration
+base_catalog_name: "workshop_catalog"
+
+# Schema Configuration
+schema_name: "default"
+
+# Volume Configuration
+volume_name: "user_data_volume"
+
+# Data Source Configuration
+source_data_path: "/databricks-datasets/sample_data"
+
+# Execution Configuration
+dry_run: "No"  # Set to "Yes" for preview mode without execution
+
+# Advanced Configuration
+# Email domain for generated user emails (if not using actual user lookup)
+email_domain: "example.com"
+
+# Permission level to grant (default: ALL PRIVILEGES for CAN MANAGE)
+permission_level: "ALL PRIVILEGES"
+
+# Auto-create schemas if they don't exist
+auto_create_schemas: "Yes"
+
+# Report Configuration
+save_report_to_delta: "Yes"
+report_catalog: "main"
+report_schema: "default"
+report_table: "provisioning_reports"
