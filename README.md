@@ -31,7 +31,7 @@ Main configuration file with settings:
 - User list (comma-separated email addresses)
 - Delta Share provider and share name
 - Catalog/schema/volume naming
-- Data source location (fallback)
+- File glob pattern for copying files
 
 **Delta Share Setup:**
 - Provider identifier format: `cloud:region:provider:identifier`

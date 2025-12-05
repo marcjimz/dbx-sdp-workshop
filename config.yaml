@@ -31,12 +31,3 @@ delta_share_volume: "shared_volume"
 
 # File pattern to copy from Delta Share volume
 file_glob_pattern: "*"
-
-# Alternative: Local data source (if not using Delta Share)
-source_data_path: "/databricks-datasets/sample_data"
-
-# Report Configuration
-save_report_to_delta: "Yes"
-report_catalog: "main"
-report_schema: "default"
-report_table: "provisioning_reports"

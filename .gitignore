@@ -1,5 +1,6 @@
 # Provisioning reports - DO NOT COMMIT
 provisioning_report.json
+provisioning_report.csv
 
 .claude*
 # Python
