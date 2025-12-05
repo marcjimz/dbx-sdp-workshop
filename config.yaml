@@ -3,7 +3,7 @@
 # All notebooks load from this file on startup.
 
 # User Configuration
-user_list: "John Smith, Jane Doe, Alice Johnson"
+user_list: "marcin.jimenez@databricks.com"
 
 # Delta Share Configuration
 delta_share_file: "/Volumes/main/default/share_config/share.json"
