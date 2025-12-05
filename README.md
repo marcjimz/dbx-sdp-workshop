@@ -8,11 +8,29 @@ Automated user provisioning and catalog management for Databricks workshops.
 
 This workshop uses Databricks-to-Databricks Delta Sharing, which does not require credential files.
 
+### Verify Delta Share Exists
+
+Before running the notebook, verify your Delta Share is accessible:
+
+```sql
+-- Check providers
+SHOW PROVIDERS;
+
+-- Check shares
+SHOW SHARES;
+
+-- Verify specific share
+DESCRIBE SHARE `your-provider`.`your-share`;
+```
+
+See [VERIFY_DELTA_SHARE.md](VERIFY_DELTA_SHARE.md) for detailed verification steps.
+
 ## Quick Start
 
-1. Edit `config.yaml` with your Delta Share settings (provider, share name, schema, volume)
-2. Update the user list with workshop participant email addresses
-3. Run `notebooks/workshop_setup.ipynb` in Databricks
+1. Verify your Delta Share exists (see above)
+2. Edit `config.yaml` with your Delta Share settings (provider, share name, schema, volume)
+3. Update the user list with workshop participant email addresses
+4. Run `notebooks/workshop_setup.ipynb` in Databricks
 
 ## What It Does
 
@@ -34,10 +52,12 @@ Main configuration file with settings:
 - File glob pattern for copying files
 
 **Delta Share Setup:**
-- Provider name: The metastore/account name (e.g., `field-eng-east` or `databricks`)
-  - This is the provider name shown when you create the share recipient in Databricks
-  - Format for SQL: `provider.share` (e.g., `field-eng-east.scp-demo`)
-- Share name: The name of your Delta Share in Databricks (e.g., `scp-demo`)
+- Provider identifier: Run `SHOW PROVIDERS;` in Databricks and use the **EXACT** value from the `name` column
+  - Format: `cloud:region:type:identifier`
+  - Example with name: `azure:eastus2:databricks:field-eng-east`
+  - Example with UUID: `aws:us-west-2:databricks:1a2b3c4d-5e6f-7g8h-9i0j-1k2l3m4n5o6p`
+  - SQL format: `provider.share` (e.g., `azure:eastus2:databricks:field-eng-east.scp-demo`)
+- Share name: Run `SHOW SHARES;` in Databricks and use the exact value (e.g., `scp-demo`)
 
 ## Directory Structure
 
