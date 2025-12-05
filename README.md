@@ -5,7 +5,8 @@ Automated user provisioning and catalog management for Databricks workshops.
 ## Quick Start
 
 1. Edit `config.yaml` with your settings
-2. Run `notebooks/workshop_setup.ipynb` in Databricks
+2. Copy `config.share.example` to `config.share` and add your Delta Share credentials
+3. Run `notebooks/workshop_setup.ipynb` in Databricks
 
 ## What It Does
 
@@ -19,12 +20,20 @@ Automated user provisioning and catalog management for Databricks workshops.
 
 ## Configuration
 
-All settings in `config.yaml`:
+### config.yaml
+Main configuration file with settings:
 - User list (comma-separated names)
-- Delta Share file path
 - Catalog/schema/volume naming
 - Data source location
 - Dry run mode
+
+### config.share
+Delta Share recipient credentials (copy from `config.share.example`):
+- Bearer token
+- Endpoint URL
+- Expiration time
+
+**Note:** `config.share` is gitignored - never commit credentials!
 
 ## Directory Structure
 

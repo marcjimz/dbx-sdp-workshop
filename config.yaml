@@ -6,7 +6,9 @@
 user_list: "marcin.jimenez@databricks.com"
 
 # Delta Share Configuration
-delta_share_file: "/Volumes/main/default/share_config/share.json"
+# Path to Delta Share recipient credentials file (config.share)
+# Copy config.share.example to config.share and update with your credentials
+delta_share_file: "config.share"
 
 # Catalog Configuration
 base_catalog_name: "workshop_catalog"
