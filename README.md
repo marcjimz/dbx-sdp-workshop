@@ -27,20 +27,12 @@ Main configuration file with settings:
 - Data source location
 
 ### config.share
-Delta Share recipient credentials (copy from `config.share.example`):
+Delta Share recipient credentials file (provided after creating a Delta Share in Databricks):
 - Bearer token
 - Endpoint URL
 - Expiration time
 
 **Note:** `config.share` is gitignored - never commit credentials!
-
-## Example
-
-Input: `"marcin.jimenez@databricks.com, jane.doe@company.com"`
-Output:
-- Catalogs: `workshop_catalog_mar_jime`, `workshop_catalog_jan_doe`
-- Volumes: `{catalog}.default.user_data_volume`
-- Permissions: CAN MANAGE granted to each user
 
 ## Directory Structure
 
