@@ -6,11 +6,8 @@
 # Comma-separated list of email addresses (format: first.last@domain.com)
 user_list: "marcin.jimenez@databricks.com"
 
-# Delta Share Configuration
-# Path to Delta Share recipient credentials file (config.share)
-# Copy config.share.example to config.share and update with your credentials
-delta_share_file: "config.share"
-
+# Delta Share Configuration (Databricks-to-Databricks)
+# PREREQUISITE: Delta Share must be created and shared BEFORE running the workshop
 # Delta Share Provider Information
 # Provider identifier format: cloud:region:provider:identifier
 delta_share_provider: "azure:eastus2:databricks:field-eng-east"
