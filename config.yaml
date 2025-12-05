@@ -11,6 +11,11 @@ user_list: "marcin.jimenez@databricks.com"
 # Copy config.share.example to config.share and update with your credentials
 delta_share_file: "config.share"
 
+# Delta Share Provider Information
+# Provider identifier format: cloud:region:provider:identifier
+delta_share_provider: "azure:eastus2:databricks:field-eng-east"
+delta_share_name: "scp-demo"
+
 # Catalog Configuration
 base_catalog_name: "workshop_catalog"
 
@@ -21,8 +26,9 @@ schema_name: "default"
 volume_name: "user_data_volume"
 
 # Delta Share Data Configuration
-# Delta Share details for accessing shared data
+# Local catalog name to mount Delta Share (will be created)
 delta_share_catalog: "shared_catalog"
+# Schema and volume names within the shared data
 delta_share_schema: "shared_schema"
 delta_share_volume: "shared_volume"
 
